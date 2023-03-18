@@ -19,7 +19,7 @@ const resolvers = {
         login: async (parent, { email, password }) => {
             const user = await User.findOne({ email });
 
-            if (!email) {
+            if (!user) {
                 throw new AuthenticationError("Incorrect credentials.")
             };
 
@@ -47,7 +47,7 @@ const resolvers = {
            }
            throw new AuthenticationError('You must be logged in to use this feature!')
         },
-        deleteBook: async (parent, { bookId }, context) => {
+        deleteBook: async (parent, { user, bookId }, context) => {
             if (context.user) {
                 const updatedUser = await User.findOneAndUpdate(
                     { _id: user._id },
