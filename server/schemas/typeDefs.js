@@ -36,7 +36,7 @@ const typeDefs = gql`
             email: String!
             password: String!): Auth
         saveBook(
-            savedBooks: [Book]
+            savedBooks: [String]
             bookId: ID!
             authors: [String]
             description: String!
@@ -44,7 +44,7 @@ const typeDefs = gql`
             image: String
             link: String): User
         deleteBook(
-            savedBooks: [Book]
+            savedBooks: [String]
             bookId: ID!): User
     }`;
 
