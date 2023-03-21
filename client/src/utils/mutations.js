@@ -4,12 +4,11 @@ export const LOGIN_USER = gql`
     mutation loginUser($email: String!, $password: String!) {
         loginUser(email: $email, password: $password) {
             token
-            user {
-                _id
-                username
-                email
-                password
-            }
+                user {
+                    _id
+                    email
+                    password
+                }
         }
     }
 `;
@@ -30,31 +29,35 @@ export const ADD_USER = gql`
 
 // not sure about this one
 export const SAVE_BOOK = gql`
-     mutation saveBook($savedBooks: [Book!]!, $bookId: String!) {
-        saveBook(savedBooks: $savedBooks) {
-            token
-            user {
-                _id
-                savedBooks {
-                    bookId
-                }
+     mutation saveBook($savedBooks: [Book], $bookId: ID!) {
+            saveBook(savedBooks: $savedBooks, bookId: $bookId) {
+                token
+                    user {
+                        _id
+                        savedBooks {
+                            bookId
+                            authors
+                            title
+                            description
+                            image
+                            link
+                        }
+                    }
             }
         }
-     }
 `
 
 // not sure about this either
 export const REMOVE_BOOK = gql`
-     mutation deleteBook($savedBooks: [Book!]!, $bookId: String!) {
-        deleteBook(savedBooks: $savedBooks) {
+     mutation deleteBook($savedBooks: [Book], $bookId: ID!) {
+        deleteBook(savedBooks: $savedBooks, bookId: $bookId) {
             token
-            user {
-                _id
-                savedBooks {
-                    bookId
+                user {
+                    savedBooks {
+                        bookId
+                    }
                 }
-            }
         }
-     }
+    }
 `
 

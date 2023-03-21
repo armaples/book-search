@@ -30,6 +30,15 @@ const SearchBooks = () => {
     return () => saveBookIds(savedBookIds);
   });
 
+  const [saveBook, { loading, error }] = useMutation(SAVE_BOOK);
+  
+  if (loading) {
+    return "Loading...";
+  }
+
+  if (error) {
+    return <pre>{error.message}</pre>
+  }
   // create method to search for books and set state on form submit
   const handleFormSubmit = async (event) => {
     event.preventDefault();
@@ -62,15 +71,11 @@ const SearchBooks = () => {
     }
   };
 
-  const [saveBook, { data, loading, error }] = useMutation(SAVE_BOOK);
-
-  if (loading) return "Loading...";
-  if (error) return <pre>{error.message}</pre>
-
   // create function to handle saving a book to our database
   const handleSaveBook = async (bookId) => {
     // find the book in `searchedBooks` state by the matching id
     const bookToSave = searchedBooks.find((book) => book.bookId === bookId);
+    console.log(bookToSave)
 
     // get token
     const token = Auth.loggedIn() ? Auth.getToken() : null;
@@ -79,9 +84,8 @@ const SearchBooks = () => {
       return false;
     }
 
-
     try {
-    await saveBook({ bookData: {...bookToSave} }, token);
+      await saveBook(bookToSave);
 
       // if book successfully saves to user's account, save book id to state
       setSavedBookIds([...savedBookIds, bookToSave.bookId]);
@@ -139,7 +143,7 @@ const SearchBooks = () => {
                       <Button
                         disabled={savedBookIds?.some((savedBookId) => savedBookId === book.bookId)}
                         className='btn-block btn-info'
-                        onClick={() => saveBook(book.bookId)}>
+                        onClick={() => handleSaveBook(book.bookId)}>
                         {savedBookIds?.some((savedBookId) => savedBookId === book.bookId)
                           ? 'This book has already been saved!'
                           : 'Save this Book!'}

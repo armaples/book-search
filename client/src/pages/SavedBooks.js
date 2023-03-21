@@ -14,12 +14,14 @@ import Auth from '../utils/auth';
 import { removeBookId } from '../utils/localStorage';
 
 const SavedBooks = () => {
-
+  const [userData, updateUser] = useState()
   const { loading, data } = useQuery(GET_ME);
 
   const [deleteBook, { error }] = useMutation(REMOVE_BOOK);
 
-  const userData = data?.me || data?.user || {};
+  useEffect(() => {
+    return updateUser(data?.user);
+  }, [])
 
   if (loading) {
     return <div>Loading...</div>;
@@ -34,7 +36,7 @@ const SavedBooks = () => {
     }
 
     try {
-      await deleteBook(bookId, token);
+      await deleteBook(bookId);
 
       // upon success, remove book's id from localStorage
       removeBookId(bookId);
@@ -52,8 +54,8 @@ const SavedBooks = () => {
       </div>
       <Container>
         <h2 className='pt-5'>
-          {userData.savedBooks.length
-            ? `Viewing ${userData.savedBooks.length} saved ${userData.savedBooks.length === 1 ? 'book' : 'books'}:`
+          {userData.savedBooks?.length
+            ? `Viewing ${userData.savedBooks?.length} saved ${userData.savedBooks?.length === 1 ? 'book' : 'books'}:`
             : 'You have no saved books!'}
         </h2>
         <Row>

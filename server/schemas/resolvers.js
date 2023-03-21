@@ -34,26 +34,28 @@ const resolvers = {
 
             return { token, user };
         },
-        saveBook: async (parent, { user, savedBooks }, context) => {
+        saveBook: async (parent, { bookData }, context) => {
            if  (context.user) {
             const updatedUser = await User.findOneAndUpdate(
-                { _id: user._id },
+                { _id: context.user._id },
                 { $addToSet: {
-                    savedBooks: body } },
-                { new: true,
-                runValidators: true }
+                    savedBooks: { bookData }}
+                }
             )
 
             return updatedUser
            }
            throw new AuthenticationError('You must be logged in to use this feature!')
         },
-        deleteBook: async (parent, { user, bookId }, context) => {
+        deleteBook: async (parent, { user, book }, context) => {
             if (context.user) {
                 const updatedUser = await User.findOneAndUpdate(
                     { _id: user._id },
-                    { $pull: { savedBooks: { bookId: params.bookId } } },
-                    { new: true }
+                    { $pull: { 
+                        savedBooks: { 
+                            bookId: book.bookId 
+                        }} 
+                    }
                 );
 
                 if (!updatedUser) {

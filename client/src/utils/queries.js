@@ -3,9 +3,7 @@ import { gql } from '@apollo/client';
 export const GET_ME = gql`
     query getUser {
         user {
-            _id
-            username
-            email
+            token
             savedBooks {
                 bookId
                 authors
