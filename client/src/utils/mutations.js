@@ -6,8 +6,6 @@ export const LOGIN_USER = gql`
             token
                 user {
                     _id
-                    email
-                    password
                 }
         }
     }
@@ -19,9 +17,6 @@ export const ADD_USER = gql`
             token
             user {
                 _id
-                username
-                email
-                password
             }
         }
      }
@@ -29,34 +24,39 @@ export const ADD_USER = gql`
 
 // not sure about this one
 export const SAVE_BOOK = gql`
-     mutation saveBook($savedBooks: [Book], $bookId: ID!) {
-            saveBook(savedBooks: $savedBooks, bookId: $bookId) {
+     mutation saveBook($savedBooks: [String]) {
+            saveBook(savedBooks: $savedBooks) {
                 token
-                    user {
-                        _id
-                        savedBooks {
-                            bookId
-                            authors
-                            title
-                            description
-                            image
-                            link
-                        }
+                user {
+                     _id
+                    savedBooks {
+                        bookId
+                        authors
+                        title
+                        description
+                        image
+                        link
                     }
+                }
             }
         }
 `
 
 // not sure about this either
 export const REMOVE_BOOK = gql`
-     mutation deleteBook($savedBooks: [Book], $bookId: ID!) {
-        deleteBook(savedBooks: $savedBooks, bookId: $bookId) {
+     mutation deleteBook($savedBooks: [String]) {
+        deleteBook(savedBooks: $savedBooks) {
             token
-                user {
-                    savedBooks {
-                        bookId
-                    }
+            user {
+                savedBooks {
+                    bookId
+                    authors
+                    title
+                    description
+                    image
+                    link
                 }
+            }
         }
     }
 `
