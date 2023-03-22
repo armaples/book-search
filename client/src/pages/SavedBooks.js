@@ -14,14 +14,14 @@ import Auth from '../utils/auth';
 import { removeBookId } from '../utils/localStorage';
 
 const SavedBooks = () => {
-  const [userData, updateUser] = useState({ savedBooks: [] })
+  // const [userData, updateUser] = useState({})
   const { loading, data } = useQuery(GET_ME);
-
   const [deleteBook, { error }] = useMutation(REMOVE_BOOK);
 
-  useEffect(() => {
-    return updateUser(data?.user);
-  }, [])
+  // useEffect(() => {
+  //   return updateUser(data?.user);
+  // }, [])
+  const userData = data?.user;
 
   if (loading) {
     return <div>Loading...</div>;

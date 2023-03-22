@@ -4,7 +4,7 @@ const { AuthenticationError } = require('apollo-server-express');
 
 const resolvers = {
     Query: {
-        getUser: async (parent, args, context) => {
+        user: async (parent, args, context) => {
             if (context.user) {
                 return User.findOne({ _id: context.user._id });
             }
@@ -34,28 +34,28 @@ const resolvers = {
 
             return { token, user };
         },
-        saveBook: async (parent, { bookData }, context) => {
+        saveBook: async (parent, { input }, context) => {
            if  (context.user) {
             const updatedUser = await User.findOneAndUpdate(
                 { _id: context.user._id },
-                { $addToSet: {
-                    savedBooks: { bookData }}
-                }
+                { $push: { 
+                    savedBooks: { input }} 
+                },
+                { new: true }
             )
 
             return updatedUser
            }
            throw new AuthenticationError('You must be logged in to use this feature!')
         },
-        deleteBook: async (parent, { user, book }, context) => {
+        deleteBook: async (parent, { input }, context) => {
             if (context.user) {
                 const updatedUser = await User.findOneAndUpdate(
-                    { _id: user._id },
+                    { _id: context.user._id },
                     { $pull: { 
-                        savedBooks: { 
-                            bookId: book.bookId 
-                        }} 
-                    }
+                        savedBooks: { input }} 
+                    },
+                    { new: true }
                 );
 
                 if (!updatedUser) {
