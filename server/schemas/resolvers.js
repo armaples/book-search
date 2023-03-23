@@ -38,29 +38,22 @@ const resolvers = {
            if  (context.user) {
             const updatedUser = await User.findOneAndUpdate(
                 { _id: context.user._id },
-                { $push: { 
-                    savedBooks: { input }} 
-                },
+                { $push: { savedBooks: input } },
                 { new: true }
             )
-
+                console.log(`In resolvers: ${updatedUser}`)
             return updatedUser
            }
            throw new AuthenticationError('You must be logged in to use this feature!')
         },
-        deleteBook: async (parent, { input }, context) => {
+        deleteBook: async (parent, { bookId }, context) => {
             if (context.user) {
                 const updatedUser = await User.findOneAndUpdate(
                     { _id: context.user._id },
-                    { $pull: { 
-                        savedBooks: { input }} 
-                    },
+                    { $pull: { savedBooks: { bookId }} },
                     { new: true }
                 );
 
-                if (!updatedUser) {
-                    return res.status(404).json({ message: "Could not find a user with this id."});
-                }
                 return updatedUser
             }
             throw new AuthenticationError("You must be logged in to use this feature.")

@@ -22,7 +22,6 @@ export const ADD_USER = gql`
      }
 `;
 
-// not sure about this one
 export const SAVE_BOOK = gql`
      mutation saveBook($input: BookInput) {
             saveBook(input: $input) {
@@ -38,7 +37,6 @@ export const SAVE_BOOK = gql`
         }
 `
 
-// not sure about this either
 export const REMOVE_BOOK = gql`
      mutation deleteBook($input: BookInput) {
         deleteBook(input: $input) {

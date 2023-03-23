@@ -31,7 +31,7 @@ const typeDefs = gql`
     }
 
     type Query {
-        user: User
+        user(_id: ID): User
     }
     
     type Mutation {
@@ -45,8 +45,7 @@ const typeDefs = gql`
         saveBook(
             input: BookInput): User
         deleteBook(
-            bookId: ID!
-            input: BookInput): User
+            bookId: ID!): User
     }`;
 
     module.exports = typeDefs;

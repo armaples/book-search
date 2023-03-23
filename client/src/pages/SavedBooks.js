@@ -22,7 +22,8 @@ const SavedBooks = () => {
   //   return updateUser(data?.user);
   // }, [])
   const userData = data?.user;
-
+  console.log(userData)
+  
   if (loading) {
     return <div>Loading...</div>;
   }
@@ -66,7 +67,7 @@ const SavedBooks = () => {
                   {book.image ? <Card.Img src={book.image} alt={`The cover for ${book.title}`} variant='top' /> : null}
                   <Card.Body>
                     <Card.Title>{book.title}</Card.Title>
-                    <p className='small'>Authors: {book.authors}</p>
+                    <p className='small'>Authors: {book.authors[0]}</p>
                     <Card.Text>{book.description}</Card.Text>
                     <Button className='btn-block btn-danger' onClick={() => handleDeleteBook(book.bookId)}>
                       Delete this Book!
