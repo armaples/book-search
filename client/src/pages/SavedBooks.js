@@ -23,7 +23,7 @@ const SavedBooks = () => {
   // }, [])
   const userData = data?.user;
   console.log(userData)
-  
+
   if (loading) {
     return <div>Loading...</div>;
   }
@@ -37,7 +37,9 @@ const SavedBooks = () => {
     }
 
     try {
-      await deleteBook(bookId);
+      await deleteBook({
+        variables: { bookId }
+      });
 
       // upon success, remove book's id from localStorage
       removeBookId(bookId);
@@ -67,7 +69,7 @@ const SavedBooks = () => {
                   {book.image ? <Card.Img src={book.image} alt={`The cover for ${book.title}`} variant='top' /> : null}
                   <Card.Body>
                     <Card.Title>{book.title}</Card.Title>
-                    <p className='small'>Authors: {book.authors[0]}</p>
+                    <p className='small'>Authors: {book.authors}</p>
                     <Card.Text>{book.description}</Card.Text>
                     <Button className='btn-block btn-danger' onClick={() => handleDeleteBook(book.bookId)}>
                       Delete this Book!
