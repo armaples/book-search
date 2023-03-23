@@ -41,7 +41,7 @@ const resolvers = {
                 { $push: { savedBooks: input } },
                 { new: true }
             )
-                console.log(`In resolvers: ${updatedUser}`)
+
             return updatedUser
            }
            throw new AuthenticationError('You must be logged in to use this feature!')
